@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
-import clientConfig from 'src/server/infraestructure/config/client.config';
+import { appConfig, clientConfig } from 'src/server/infraestructure/config';
 
 const ENV = process.env.NODE_ENV;
 
 const CONFIG_MODULES = [
 	ConfigModule.forRoot({
-		load: [clientConfig],
+		load: [appConfig, clientConfig],
 		envFilePath: path.resolve(process.cwd(), 'env', !ENV ? '.env' : `.env.${ENV}`)
 	})
 ];

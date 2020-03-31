@@ -1,13 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import dotenvFlow = require('dotenv-flow');
 
 (async () => {
-	dotenvFlow.config();
-	const app = await NestFactory.create(AppModule);
-	const configService = app.get('ConfigService');
-	const client = configService.get('client');
-	app.connectMicroservice(client);
-	await app.startAllMicroservicesAsync();
-	await app.listen(3000, () => 'Microservice is listening');
+	const nest = await NestFactory.create(AppModule);
+	const configService = nest.get('ConfigService');
+	const tcp = configService.get('tcp');
+	const app = configService.get('app');
+	nest.connectMicroservice(tcp);
+	await nest.startAllMicroservicesAsync();
+	await nest.listen(app.port, () => 'Microservice is listening');
 })();

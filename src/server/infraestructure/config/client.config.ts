@@ -1,9 +1,9 @@
 import { registerAs } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
 
-export default registerAs('client', () => ({
+export const clientConfig = registerAs('tcp', () => ({
 	transport: Transport.TCP,
 	options: {
-		port: 5667
+		port: process.env.TCP_PORT
 	}
 }));
