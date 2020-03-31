@@ -1,15 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
+import dotenvFlow = require('dotenv-flow');
 
 (async () => {
+	dotenvFlow.config();
 	const app = await NestFactory.create(AppModule);
-	app.connectMicroservice({
-		transport: Transport.TCP,
-		options: {
-			port: 5667
-		}
-	});
+	const configService = app.get('ConfigService');
+	const client = configService.get('client');
+	app.connectMicroservice(client);
 	await app.startAllMicroservicesAsync();
 	await app.listen(3000, () => 'Microservice is listening');
 })();

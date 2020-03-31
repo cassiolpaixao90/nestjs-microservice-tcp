@@ -1,3 +1,9 @@
-export default () => ({
-	port: parseInt(process.env.PORT, 10) || 3000
-});
+import { registerAs } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
+
+export default registerAs('client', () => ({
+	transport: Transport.TCP,
+	options: {
+		port: 5667
+	}
+}));
